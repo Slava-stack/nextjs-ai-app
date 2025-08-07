@@ -39,10 +39,15 @@ export default function CompletionPage() {
 
   return (
     <div className="display flex justify-center h-screen items-center">
-      {completion ? <div className="px-10">{completion}</div> : null}
+      {completion ? (
+        <div className="whitespace-pre-wrap w-xl">{completion}</div>
+      ) : null}
       {error && <div className="text-red-500">{error}</div>}
-      <form onSubmit={complete} className="fixed bottom-0 mb-4 px-4">
-        <div className="display flex justify-end gap-4">
+      <form
+        onSubmit={complete}
+        className="fixed bottom-0 mb-4 px-4 border-t-2 pt-4"
+      >
+        <div className="flex justify-end gap-4">
           <input
             type="text"
             placeholder="How can I help you?"
@@ -53,7 +58,7 @@ export default function CompletionPage() {
           <button
             disabled={isLoading}
             type="submit"
-            className="px-6 py-4 bg-blue-500 text-white text-bold rounded-lg hover:bg-blue-600 transition-colors duration-350 cursor-pointer"
+            className="px-6 py-4 bg-blue-500 text-white text-bold rounded-lg text-[20px] hover:bg-blue-600 transition-colors duration-350 cursor-pointer"
           >
             {isLoading ? "Wait" : "Send"}
           </button>
