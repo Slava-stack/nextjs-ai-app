@@ -38,7 +38,7 @@ export default function CompletionPage() {
   };
 
   return (
-    <div className="display flex justify-center h-screen items-center">
+    <div className="display flex justify-center h-full items-center">
       {completion ? (
         <div className="whitespace-pre-wrap w-xl">{completion}</div>
       ) : null}

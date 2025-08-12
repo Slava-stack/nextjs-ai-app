@@ -17,7 +17,7 @@ export default function StreamPage() {
   });
 
   return (
-    <div className="flex flex-col h-screen items-center pt-20">
+    <div className="flex flex-col h-full items-center pt-20">
       {error && <div className="text-red-500">{error.message}</div>}
       {isLoading && !completion && <div>Loading...</div>}
       {completion && (
