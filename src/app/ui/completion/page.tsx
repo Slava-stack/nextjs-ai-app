@@ -8,7 +8,7 @@ export default function CompletionPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const complete = async (e: React.FormEvent) => {
+  const complete = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsLoading(true);
