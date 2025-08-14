@@ -15,7 +15,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="flex flex-col w-full max-w-md mx-auto py-24">
+    <div className="flex flex-col items-center w-full max-w-md mx-auto py-24">
       {error && <div className="text-red-500 mb-4">{error.message}</div>}
       {messages.map((message) => (
         <div key={message.id} className="mb-4">
@@ -50,7 +50,7 @@ export default function ChatPage() {
         onSubmit={handleSubmit}
         className="fixed bottom-0 mb-4 px-4 border-t-2 pt-4"
       >
-        <div className="flex justify-end gap-4">
+        <div className="flex gap-4">
           <input
             type="text"
             placeholder="How can I help you?"
