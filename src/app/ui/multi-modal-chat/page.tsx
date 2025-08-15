@@ -3,7 +3,6 @@
 import { useState, useRef } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { file } from "zod/v4";
 import Image from "next/image";
 
 export default function MultiModalChatPage() {
@@ -45,7 +44,7 @@ export default function MultiModalChatPage() {
                   </div>
                 );
               case "file":
-                if (part.mediaType?.startsWith("image/"))
+                if (part.mediaType?.startsWith("image/")) {
                   return (
                     <Image
                       key={`${message.id}-${index}`}
@@ -55,6 +54,19 @@ export default function MultiModalChatPage() {
                       height={500}
                     />
                   );
+                }
+                if (part.mediaType?.startsWith("application/pdf")) {
+                  return (
+                    <iframe
+                      key={`${message.id}-${index}`}
+                      src={part.url}
+                      width="500"
+                      height="500"
+                      title={part.filename ?? `attachment-${index + 1}`}
+                    ></iframe>
+                  );
+                }
+                return null;
               default:
                 return null;
             }
