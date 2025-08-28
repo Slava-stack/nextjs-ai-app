@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     });
 
     const fixed = new Uint8Array(audio.uint8Array);
-    const blob = new Blob([fixed], { type: audio.mediaType || "audio/mpeg" });
+    const blob = new Blob([fixed]);
 
     return new Response(blob, {
       headers: { "Content-Type": audio.mediaType || "audio/mpeg" },
