@@ -24,48 +24,58 @@ export default function WebSearchToolPage() {
     <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
       {error && <div className="text-red-500 mb-4">{error.message}</div>}
 
-      {messages.map((message) => (
-        <div key={message.id} className="mb-4">
-          <div className="font-semibold">
-            {message.role === "user" ? "You:" : "AI:"}
+      {messages.map((message) => {
+        const sources = message.parts.filter(
+          (part) => part.type === "source-url"
+        );
+        return (
+          <div key={message.id} className="mb-4">
+            <div className="font-semibold">
+              {message.role === "user" ? "You:" : "AI:"}
+            </div>
+            {message.parts.map((part, index) => {
+              switch (part.type) {
+                case "text":
+                  return (
+                    <div
+                      key={`${message.id}-${index}`}
+                      className="whitespace-pre-wrap"
+                    >
+                      {part.text}
+                    </div>
+                  );
+                case "tool-web_search_preview":
+                  switch (part.state) {
+                    case "input-streaming":
+                      console.log(
+                        "input-streaming",
+                        JSON.stringify(part.input, null, 2)
+                      );
+                      return;
+                    case "input-available":
+                      console.log("input-available", part.input);
+                      return;
+                    case "output-available":
+                      console.log("output-available", part.output);
+                      if (message.role === "assistant" && sources.length > 0)
+                        console.log(
+                          "source",
+                          sources.map((el) => el.url)
+                        );
+                      return;
+                    case "output-error":
+                      console.log("output-error", part.errorText);
+                      return;
+                    default:
+                      return null;
+                  }
+                default:
+                  return null;
+              }
+            })}
           </div>
-          {message.parts.map((part, index) => {
-            switch (part.type) {
-              case "text":
-                return (
-                  <div
-                    key={`${message.id}-${index}`}
-                    className="whitespace-pre-wrap"
-                  >
-                    {part.text}
-                  </div>
-                );
-              case "tool-web_search_preview":
-                switch (part.state) {
-                  case "input-streaming":
-                    console.log(
-                      "input-streaming",
-                      JSON.stringify(part.input, null, 2)
-                    );
-                    return;
-                  case "input-available":
-                    console.log("input-available", part.input);
-                    return;
-                  case "output-available":
-                    console.log("output-available", part.output);
-                    return;
-                  case "output-error":
-                    console.log("output-error", part.errorText);
-                    return;
-                  default:
-                    return null;
-                }
-              default:
-                return null;
-            }
-          })}
-        </div>
-      ))}
+        );
+      })}
       {(status === "submitted" || status === "streaming") && (
         <div className="mb-4">
           <div className="flex items-center gap-2">

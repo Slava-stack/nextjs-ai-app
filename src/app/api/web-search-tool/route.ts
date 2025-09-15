@@ -12,6 +12,7 @@ const tools = {
   web_search_preview: openai.tools.webSearchPreview({}),
 };
 
+//@ts-expect-error  typeof tools attracts error and still it works fine
 export type ChatTools = InferUITools<typeof tools>;
 export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
@@ -22,11 +23,14 @@ export async function POST(req: Request) {
     const result = streamText({
       model: openai.responses("gpt-5-nano"),
       messages: convertToModelMessages(messages),
+      //@ts-expect-error  typeof tools attracts error and still it works fine
       tools,
       stopWhen: stepCountIs(2),
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toUIMessageStreamResponse({
+      sendSources: true,
+    });
   } catch (err) {
     console.error("Error streaming chat completion:", err);
     return new Response("Failed to stream chat completion", { status: 500 });
